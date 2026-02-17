@@ -66,31 +66,33 @@ const ProductDetail = () => {
   if (!product) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-white py-8">
+      <div className="container mx-auto px-6">
         {/* Back Button */}
         <motion.button
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           whileHover={{ x: -5 }}
           onClick={() => navigate(-1)}
-          className="mb-6 flex items-center text-gray-600 hover:text-primary-600 transition-colors"
+          className="mb-8 flex items-center text-gray-600 hover:text-gray-900 transition-colors group"
         >
-          <span className="text-xl mr-2">←</span>
+          <svg className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
           Back to products
         </motion.button>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-2 gap-12">
           {/* Product Image */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            className="card overflow-hidden"
+            className="rounded-2xl overflow-hidden border border-gray-200"
           >
             <img
               src={product.image}
               alt={product.title}
-              className="w-full h-96 object-cover"
+              className="w-full h-[500px] object-cover"
             />
           </motion.div>
 
@@ -102,76 +104,77 @@ const ProductDetail = () => {
           >
             {/* Category Badge */}
             <div>
-              <span className="inline-block bg-primary-100 text-primary-700 px-4 py-1 rounded-full text-sm font-medium">
+              <span className="inline-block bg-blue-500 text-white px-4 py-1.5 rounded-full text-sm font-medium">
                 {product.category}
               </span>
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl font-bold text-gray-800">
+            <h1 className="text-4xl font-bold text-gray-900 leading-tight">
               {product.title}
             </h1>
 
-            {/* Price */}
-            <div className="flex items-baseline space-x-4">
-              <span className="text-5xl font-bold text-primary-600">
+            {/* Price & Stock */}
+            <div className="flex items-baseline gap-4 pb-6 border-b border-gray-200">
+              <span className="text-5xl font-bold text-gray-900">
                 ${product.price.toFixed(2)}
               </span>
-              <span className="text-gray-500">
+              <span className={`text-sm font-medium ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
                 {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
               </span>
             </div>
 
             {/* Description */}
-            <div className="card p-6">
-              <h2 className="text-xl font-semibold mb-3 text-gray-800">
-                Description
+            <div>
+              <h2 className="text-lg font-semibold mb-3 text-gray-900">
+                About this product
               </h2>
               <p className="text-gray-600 leading-relaxed">
                 {product.description}
               </p>
             </div>
 
-            {/* Actions */}
-            <div className="flex space-x-4">
+            {/* Favorite Button */}
+            <div className="pt-4">
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={handleFavoriteToggle}
                 disabled={favoriteLoading}
-                className={`flex-1 py-3 rounded-lg font-medium transition-colors ${
+                className={`w-full py-4 rounded-full font-medium transition-all flex items-center justify-center gap-2 ${
                   isFavorite
-                    ? 'bg-red-100 text-red-600 hover:bg-red-200'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-red-50 text-red-600 border-2 border-red-200 hover:bg-red-100'
+                    : 'bg-gray-900 text-white hover:bg-gray-800'
                 }`}
               >
+                <svg className="w-5 h-5" fill={isFavorite ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
                 {favoriteLoading ? (
                   'Loading...'
                 ) : (
-                  <>
-                    {isFavorite ? '❤️ Remove from Favorites' : '🤍 Add to Favorites'}
-                  </>
+                  isFavorite ? 'Remove from Favorites' : 'Add to Favorites'
                 )}
               </motion.button>
             </div>
 
-            {/* Additional Info */}
-            <div className="card p-6 space-y-3">
-              <h3 className="font-semibold text-gray-800">Product Details</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Category:</span>
-                  <span className="font-medium">{product.category}</span>
+            {/* Product Details */}
+            <div className="bg-gray-50 rounded-2xl p-6 space-y-4">
+              <h3 className="font-semibold text-gray-900">Product Details</h3>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between py-2 border-b border-gray-200">
+                  <span className="text-gray-600">Category</span>
+                  <span className="font-medium text-gray-900">{product.category}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Availability:</span>
+                <div className="flex justify-between py-2 border-b border-gray-200">
+                  <span className="text-gray-600">Availability</span>
                   <span className={`font-medium ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
                     {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Product ID:</span>
-                  <span className="font-mono text-xs">{product._id}</span>
+                <div className="flex justify-between py-2">
+                  <span className="text-gray-600">Product ID</span>
+                  <span className="font-mono text-xs text-gray-500">{product._id.slice(-8)}</span>
                 </div>
               </div>
             </div>

@@ -141,21 +141,27 @@ const Home = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-16"
+            className="text-center py-20"
           >
-            <p className="text-2xl text-gray-400 mb-4">😕</p>
-            <p className="text-xl text-gray-600">No products found</p>
-            <p className="text-gray-500 mt-2">Try adjusting your search or filters</p>
+            <div className="text-6xl mb-4">🔍</div>
+            <p className="text-xl text-gray-600 mb-2">No products found</p>
+            <p className="text-gray-500">Try adjusting your search or filters</p>
           </motion.div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <ProductCard
+            {products.map((product, index) => (
+              <motion.div
                 key={product._id}
-                product={product}
-                isFavorite={user?.favorites?.some((fav) => fav._id === product._id)}
-                onFavoriteChange={fetchProducts}
-              />
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <ProductCard
+                  product={product}
+                  isFavorite={user?.favorites?.some((fav) => fav._id === product._id)}
+                  onFavoriteChange={fetchProducts}
+                />
+              </motion.div>
             ))}
           </div>
         )}

@@ -38,21 +38,21 @@ const Favorites = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-white py-12">
+      <div className="container mx-auto px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-10"
         >
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            ❤️ My Favorites
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">
+            My Favorites
           </h1>
           <p className="text-gray-600">
             {favorites.length === 0
               ? 'No favorites yet'
-              : `You have ${favorites.length} favorite ${favorites.length === 1 ? 'product' : 'products'}`}
+              : `${favorites.length} ${favorites.length === 1 ? 'product' : 'products'} saved`}
           </p>
         </motion.div>
 
@@ -61,31 +61,37 @@ const Favorites = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-16 card"
+            className="text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-300"
           >
-            <p className="text-6xl mb-4">💔</p>
-            <p className="text-2xl text-gray-600 mb-2">No favorites yet</p>
-            <p className="text-gray-500 mb-6">
+            <div className="text-6xl mb-4">💝</div>
+            <p className="text-2xl text-gray-600 mb-2 font-semibold">No favorites yet</p>
+            <p className="text-gray-500 mb-8">
               Start adding products to your favorites!
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => navigate('/')}
-              className="btn-primary"
+              className="btn-primary px-8 py-3"
             >
               Browse Products
             </motion.button>
           </motion.div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {favorites.map((product) => (
-              <ProductCard
+            {favorites.map((product, index) => (
+              <motion.div
                 key={product._id}
-                product={product}
-                isFavorite={true}
-                onFavoriteChange={fetchFavorites}
-              />
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <ProductCard
+                  product={product}
+                  isFavorite={true}
+                  onFavoriteChange={fetchFavorites}
+                />
+              </motion.div>
             ))}
           </div>
         )}

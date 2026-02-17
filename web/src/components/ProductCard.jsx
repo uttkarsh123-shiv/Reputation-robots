@@ -41,57 +41,69 @@ const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -5 }}
-      className="card overflow-hidden group"
+      whileHover={{ y: -4 }}
+      className="bg-white rounded-2xl border border-gray-200 overflow-hidden group hover:shadow-xl transition-all duration-300"
     >
       <Link to={`/products/${product._id}`}>
-        {/* Image */}
-        <div className="relative h-48 overflow-hidden bg-gray-200">
+        {/* Image Container */}
+        <div className="relative h-56 overflow-hidden bg-gray-100">
           <img
             src={product.image}
             alt={product.title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
           
+          {/* Category Badge */}
+          <div className="absolute top-3 left-3">
+            <span className="inline-block bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+              {product.category}
+            </span>
+          </div>
+
           {/* Favorite Button */}
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={handleFavoriteClick}
             disabled={loading}
-            className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-shadow"
+            className="absolute top-3 right-3 bg-white rounded-full p-2.5 shadow-md hover:shadow-lg transition-all"
           >
-            <motion.span
-              animate={{ scale: favorite ? [1, 1.2, 1] : 1 }}
-              transition={{ duration: 0.3 }}
-              className="text-2xl"
+            <svg
+              className={`w-5 h-5 ${favorite ? 'fill-red-500 text-red-500' : 'text-gray-400'}`}
+              fill={favorite ? 'currentColor' : 'none'}
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              {favorite ? '❤️' : '🤍'}
-            </motion.span>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
           </motion.button>
-
-          {/* Category Badge */}
-          <div className="absolute top-2 left-2 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-medium">
-            {product.category}
-          </div>
         </div>
 
         {/* Content */}
-        <div className="p-4">
-          <h3 className="font-semibold text-lg text-gray-800 mb-2 line-clamp-1">
+        <div className="p-5">
+          <h3 className="font-semibold text-lg text-gray-900 mb-2 line-clamp-1">
             {product.title}
           </h3>
-          <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+          <p className="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">
             {product.description}
           </p>
           
           <div className="flex justify-between items-center">
-            <span className="text-2xl font-bold text-primary-600">
-              ${product.price.toFixed(2)}
-            </span>
-            <span className="text-sm text-gray-500">
-              Stock: {product.stock}
-            </span>
+            <div>
+              <span className="text-2xl font-bold text-gray-900">
+                ${product.price.toFixed(2)}
+              </span>
+            </div>
+            <div className="text-right">
+              <span className="text-xs text-gray-500">
+                Stock: {product.stock}
+              </span>
+            </div>
           </div>
         </div>
       </Link>
