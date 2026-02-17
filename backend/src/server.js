@@ -1,13 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('./src/config/db');
-const errorHandler = require('./src/middleware/errorHandler');
+const connectDB = require('./config/db');
+const errorHandler = require('./middleware/errorHandler');
 
 // Route imports
-const authRoutes = require('./src/routes/auth');
-const productRoutes = require('./src/routes/products');
-const favoriteRoutes = require('./src/routes/favorites');
+const authRoutes = require('./routes/auth');
+const productRoutes = require('./routes/products');
+const favoriteRoutes = require('./routes/favorites');
 
 // Connect to database
 connectDB();
