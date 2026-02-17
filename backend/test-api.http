@@ -1,0 +1,115 @@
+### Micro Marketplace API Tests
+### Use with REST Client extension in VS Code
+
+@baseUrl = http://localhost:5000
+@token = YOUR_TOKEN_HERE
+@productId = YOUR_PRODUCT_ID_HERE
+
+### Health Check
+GET {{baseUrl}}/
+
+###
+
+### Register New User
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "New User",
+  "email": "newuser@test.com",
+  "password": "Test123!"
+}
+
+###
+
+### Login User 1
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@test.com",
+  "password": "Test123!"
+}
+
+###
+
+### Login User 2
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user2@test.com",
+  "password": "Test123!"
+}
+
+###
+
+### Get Current User
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer {{token}}
+
+###
+
+### Get All Products
+GET {{baseUrl}}/api/products
+
+###
+
+### Get Products with Search
+GET {{baseUrl}}/api/products?search=headphones
+
+###
+
+### Get Products with Pagination
+GET {{baseUrl}}/api/products?page=1&limit=5
+
+###
+
+### Get Products by Category
+GET {{baseUrl}}/api/products?category=Electronics
+
+###
+
+### Get Products - Combined Filters
+GET {{baseUrl}}/api/products?search=watch&category=Electronics&page=1&limit=10
+
+###
+
+### Get Single Product
+GET {{baseUrl}}/api/products/{{productId}}
+
+###
+
+### Get User Favorites
+GET {{baseUrl}}/api/favorites
+Authorization: Bearer {{token}}
+
+###
+
+### Add Product to Favorites
+POST {{baseUrl}}/api/favorites/{{productId}}
+Authorization: Bearer {{token}}
+
+###
+
+### Remove Product from Favorites
+DELETE {{baseUrl}}/api/favorites/{{productId}}
+Authorization: Bearer {{token}}
+
+###
+
+### Create New Product (Protected)
+POST {{baseUrl}}/api/products
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "New Product",
+  "description": "This is a test product",
+  "price": 99.99,
+  "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+  "category": "Electronics",
+  "stock": 50
+}
+
+###
