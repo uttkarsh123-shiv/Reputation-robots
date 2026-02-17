@@ -12,6 +12,7 @@ const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
 
   const handleFavoriteClick = async (e) => {
     e.preventDefault();
+    e.stopPropagation(); // Prevent event bubbling to Link
     
     if (!isAuthenticated) {
       toast.error('Please login to add favorites');
@@ -29,7 +30,7 @@ const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
         setFavorite(true);
         toast.success('Added to favorites');
       }
-      onFavoriteChange?.();
+      // Don't call onFavoriteChange to avoid re-fetching all products
     } catch (error) {
       toast.error(error.response?.data?.error || 'Failed to update favorites');
     } finally {
@@ -68,8 +69,10 @@ const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
             disabled={loading}
             className="absolute top-3 right-3 bg-white rounded-full p-2.5 shadow-md hover:shadow-lg transition-all"
           >
-            <svg
-              className={`w-5 h-5 ${favorite ? 'fill-red-500 text-red-500' : 'text-gray-400'}`}
+            <motion.svg
+              animate={favorite ? { scale: [1, 1.3, 1] } : { scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className={`w-5 h-5 transition-colors ${favorite ? 'fill-red-500 text-red-500' : 'text-gray-400'}`}
               fill={favorite ? 'currentColor' : 'none'}
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -80,7 +83,7 @@ const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
                 strokeWidth={2}
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
               />
-            </svg>
+            </motion.svg>
           </motion.button>
         </div>
 
