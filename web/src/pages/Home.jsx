@@ -152,19 +152,13 @@ const Home = () => {
           </motion.div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product, index) => (
-              <motion.div
+            {products.map((product) => (
+              <ProductCard
                 key={product._id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <ProductCard
-                  product={product}
-                  isFavorite={user?.favorites?.some((fav) => fav._id === product._id)}
-                  onFavoriteChange={fetchProducts}
-                />
-              </motion.div>
+                product={product}
+                isFavorite={user?.favorites?.some((fav) => fav._id === product._id)}
+                onFavoriteChange={fetchProducts}
+              />
             ))}
           </div>
         )}
