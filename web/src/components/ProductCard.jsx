@@ -39,12 +39,7 @@ const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -4 }}
-      className="bg-white rounded-2xl border border-gray-200 overflow-hidden group hover:shadow-xl transition-all duration-300"
-    >
+    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
       <Link to={`/products/${product._id}`}>
         {/* Image Container */}
         <div className="relative h-56 overflow-hidden bg-gray-100">
@@ -110,7 +105,7 @@ const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
           </div>
         </div>
       </Link>
-    </motion.div>
+    </div>
   );
 };
 
