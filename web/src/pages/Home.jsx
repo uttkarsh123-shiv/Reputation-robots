@@ -62,29 +62,29 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-16"
+        className="bg-gradient-to-b from-gray-50 to-white border-b border-gray-200 py-20"
       >
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6">
           <motion.h1
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-bold text-center mb-4"
+            className="text-5xl md:text-6xl font-serif font-bold text-center mb-6 text-gray-900"
           >
-            Welcome to Marketplace
+            Discover products
           </motion.h1>
           <motion.p
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-center text-primary-100 text-lg mb-8"
+            className="text-center text-gray-600 text-lg mb-10 max-w-2xl mx-auto"
           >
-            Discover amazing products at great prices
+            A curated marketplace for quality products
           </motion.p>
 
           {/* Search Bar */}
@@ -95,19 +95,19 @@ const Home = () => {
       </motion.div>
 
       {/* Category Filter */}
-      <div className="bg-white shadow-sm sticky top-16 z-40">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-wrap gap-2 justify-center">
+      <div className="bg-white border-b border-gray-200 sticky top-16 z-40">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex flex-wrap gap-3 justify-center">
             {categories.map((cat) => (
               <motion.button
                 key={cat}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={() => handleCategoryChange(cat)}
-                className={`px-4 py-2 rounded-full font-medium transition-colors ${
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
                   (cat === 'All' && !category) || category === cat
-                    ? 'bg-primary-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-gray-900 text-white'
+                    : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-900'
                 }`}
               >
                 {cat}
@@ -118,16 +118,16 @@ const Home = () => {
       </div>
 
       {/* Products Section */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-6 py-12">
         {/* Results Info */}
-        <div className="mb-6">
-          <p className="text-gray-600">
+        <div className="mb-8">
+          <p className="text-gray-600 text-sm">
             {loading ? (
               'Loading...'
             ) : (
               <>
-                Showing {products.length} of {total} products
-                {search && ` for "${search}"`}
+                {total} {total === 1 ? 'product' : 'products'}
+                {search && ` matching "${search}"`}
                 {category && ` in ${category}`}
               </>
             )}

@@ -28,26 +28,25 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="bg-white shadow-md sticky top-0 z-50"
+      className="bg-white border-b border-gray-200 sticky top-0 z-50"
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center">
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="text-2xl font-bold text-primary-600"
+              whileHover={{ scale: 1.02 }}
+              className="text-2xl font-serif font-bold text-gray-900"
             >
-              🛍️ Marketplace
+              Marketplace
             </motion.div>
           </Link>
 
           {/* Navigation Links */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-8">
             <Link
               to="/"
-              className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
+              className="text-gray-700 hover:text-gray-900 transition-colors text-sm"
             >
               Products
             </Link>
@@ -56,43 +55,37 @@ const Navbar = () => {
               <>
                 <Link
                   to="/favorites"
-                  className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
+                  className="text-gray-700 hover:text-gray-900 transition-colors text-sm"
                 >
-                  ❤️ Favorites
+                  Favorites
                 </Link>
                 
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-6">
                   <span className="text-gray-600 text-sm">
-                    Hi, {user?.name}
+                    {user?.name}
                   </span>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  <button
                     onClick={handleLogout}
-                    className="btn-secondary"
+                    className="text-gray-700 hover:text-gray-900 transition-colors text-sm"
                   >
-                    Logout
-                  </motion.button>
+                    Sign out
+                  </button>
                 </div>
               </>
             ) : (
-              <div className="flex items-center space-x-3">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+              <div className="flex items-center space-x-4">
+                <button
                   onClick={() => setShowLogin(true)}
-                  className="btn-secondary"
+                  className="text-gray-700 hover:text-gray-900 transition-colors text-sm"
                 >
-                  Login
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  Sign in
+                </button>
+                <button
                   onClick={() => setShowRegister(true)}
                   className="btn-primary"
                 >
-                  Register
-                </motion.button>
+                  Get started
+                </button>
               </div>
             )}
           </div>

@@ -28,22 +28,21 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="card p-8">
-        <motion.h2
+      <div className="bg-white p-12 rounded-lg">
+        <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-3xl font-bold text-center mb-2 text-gray-800"
+          className="text-center mb-10"
         >
-          Create Account
-        </motion.h2>
-        <p className="text-center text-gray-600 mb-6">
-          Join our marketplace today
-        </p>
+          <h2 className="text-3xl font-serif font-bold text-gray-900 mb-3">
+            Join Marketplace.
+          </h2>
+        </motion.div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Full Name
+            <label className="block text-sm text-gray-700 mb-2">
+              Your name
             </label>
             <input
               type="text"
@@ -51,13 +50,13 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
               onChange={(e) => setName(e.target.value)}
               required
               className="input-field"
-              placeholder="John Doe"
+              placeholder="Enter your full name"
               autoFocus
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm text-gray-700 mb-2">
               Email
             </label>
             <input
@@ -66,12 +65,12 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="input-field"
-              placeholder="your@email.com"
+              placeholder="Enter your email address"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm text-gray-700 mb-2">
               Password
             </label>
             <input
@@ -81,35 +80,36 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
               required
               minLength={6}
               className="input-field"
-              placeholder="••••••••"
+              placeholder="Create a password (min. 6 characters)"
             />
-            <p className="text-xs text-gray-500 mt-1">
-              Minimum 6 characters
-            </p>
           </div>
 
           <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
             type="submit"
             disabled={loading}
-            className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full btn-primary py-3 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Creating account...' : 'Register'}
+            {loading ? 'Creating account...' : 'Continue'}
           </motion.button>
         </form>
 
-        <div className="mt-6 text-center">
-          <p className="text-gray-600">
+        <div className="mt-8 text-center">
+          <p className="text-gray-600 text-sm">
             Already have an account?{' '}
             <button
               onClick={onSwitchToLogin}
-              className="text-primary-600 hover:text-primary-700 font-medium"
+              className="text-green-600 hover:text-green-700 font-medium"
             >
-              Login here
+              Sign in
             </button>
           </p>
         </div>
+
+        <p className="mt-6 text-xs text-gray-500 text-center">
+          By creating an account, you agree to our Terms of Service and Privacy Policy.
+        </p>
       </div>
     </Modal>
   );
