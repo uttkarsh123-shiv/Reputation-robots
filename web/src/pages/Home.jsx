@@ -34,7 +34,9 @@ const Home = () => {
         ...(category && category !== 'All' && { category }),
       };
 
+      console.log('Fetching products with params:', params);
       const response = await productsAPI.getAll(params);
+      console.log('API Response:', response.data);
       setProducts(response.data.products);
       setTotalPages(response.data.totalPages);
       setTotal(response.data.total);
@@ -57,6 +59,7 @@ const Home = () => {
   };
 
   const handlePageChange = (newPage) => {
+    console.log('Page change requested:', newPage);
     setPage(newPage);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
