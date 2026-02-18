@@ -1,5 +1,3 @@
-import { motion } from 'framer-motion';
-
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pages = [];
   
@@ -24,79 +22,69 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
     <div className="flex justify-center items-center space-x-2 mt-8">
       {/* Previous Button */}
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+      <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className={`px-4 py-2 rounded-lg font-medium transition-colors ${
           currentPage === 1
             ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-            : 'bg-white text-gray-700 hover:bg-primary-50 border border-gray-300'
+            : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
         }`}
       >
         ← Previous
-      </motion.button>
+      </button>
 
       {/* Page Numbers */}
       {startPage > 1 && (
         <>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <button
             onClick={() => onPageChange(1)}
-            className="px-4 py-2 rounded-lg font-medium bg-white text-gray-700 hover:bg-primary-50 border border-gray-300"
+            className="px-4 py-2 rounded-lg font-medium bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
           >
             1
-          </motion.button>
+          </button>
           {startPage > 2 && <span className="text-gray-400">...</span>}
         </>
       )}
 
-      {pages.map((page) => (
-        <motion.button
-          key={page}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => onPageChange(page)}
+      {pages.map((pageNum) => (
+        <button
+          key={pageNum}
+          onClick={() => onPageChange(pageNum)}
           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-            currentPage === page
-              ? 'bg-primary-600 text-white'
-              : 'bg-white text-gray-700 hover:bg-primary-50 border border-gray-300'
+            currentPage === pageNum
+              ? 'bg-blue-600 text-white'
+              : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
           }`}
         >
-          {page}
-        </motion.button>
+          {pageNum}
+        </button>
       ))}
 
       {endPage < totalPages && (
         <>
           {endPage < totalPages - 1 && <span className="text-gray-400">...</span>}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <button
             onClick={() => onPageChange(totalPages)}
-            className="px-4 py-2 rounded-lg font-medium bg-white text-gray-700 hover:bg-primary-50 border border-gray-300"
+            className="px-4 py-2 rounded-lg font-medium bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
           >
             {totalPages}
-          </motion.button>
+          </button>
         </>
       )}
 
       {/* Next Button */}
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+      <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className={`px-4 py-2 rounded-lg font-medium transition-colors ${
           currentPage === totalPages
             ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-            : 'bg-white text-gray-700 hover:bg-primary-50 border border-gray-300'
+            : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
         }`}
       >
         Next →
-      </motion.button>
+      </button>
     </div>
   );
 };
