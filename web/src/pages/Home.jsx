@@ -7,6 +7,7 @@ import SearchBar from '../components/SearchBar';
 import Pagination from '../components/Pagination';
 import Loading from '../components/Loading';
 import toast from 'react-hot-toast';
+import cache from '../utils/cache';
 
 const Home = () => {
   const { user } = useAuth();
@@ -15,6 +16,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
+  const [fromCache, setFromCache] = useState(false);
 
   // Get params from URL
   const page = parseInt(searchParams.get('page')) || 1;
@@ -26,21 +28,48 @@ const Home = () => {
   // Fetch products whenever URL params change
   useEffect(() => {
     const fetchProducts = async () => {
-      setLoading(true);
-      try {
-        const params = {
-          page,
-          limit: 12,
-          ...(search && { search }),
-          ...(category && { category }),
-        };
+      const params = {
+        page,
+        limit: 12,
+        ...(search && { search }),
+        ...(category && { category }),
+      };
 
-        console.log('Fetching products with params:', params);
+      // Generate cache key
+      const cacheKey = cache.generateKey(params);
+
+      // Try to get from cache first
+      const cachedData = cache.get(cacheKey);
+      if (cachedData) {
+        console.log('📦 Using cached data');
+        setProducts(cachedData.products);
+        setTotalPages(cachedData.totalPages);
+        setTotal(cachedData.total);
+        setFromCache(true);
+        setLoading(false);
+        return;
+      }
+
+      // If not in cache, fetch from API
+      setLoading(true);
+      setFromCache(false);
+      try {
+        console.log('🌐 Fetching from API:', params);
         const response = await productsAPI.getAll(params);
         console.log('API Response:', response.data);
-        setProducts(response.data.products);
-        setTotalPages(response.data.totalPages);
-        setTotal(response.data.total);
+        
+        const data = {
+          products: response.data.products,
+          totalPages: response.data.totalPages,
+          total: response.data.total,
+        };
+
+        // Store in cache
+        cache.set(cacheKey, data);
+
+        setProducts(data.products);
+        setTotalPages(data.totalPages);
+        setTotal(data.total);
       } catch (error) {
         toast.error('Failed to load products');
         console.error(error);
@@ -125,7 +154,7 @@ const Home = () => {
       {/* Products Section */}
       <div className="container mx-auto px-6 py-12">
         {/* Results Info */}
-        <div className="mb-8">
+        <div className="mb-8 flex items-center justify-between">
           <p className="text-gray-600 text-sm">
             {loading ? (
               'Loading...'
@@ -138,6 +167,11 @@ const Home = () => {
               </>
             )}
           </p>
+          {fromCache && !loading && (
+            <span className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-medium">
+              ⚡ Cached
+            </span>
+          )}
         </div>
 
         {/* Products Grid */}
