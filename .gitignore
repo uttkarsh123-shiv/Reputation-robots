@@ -133,3 +133,8 @@ yarn-error.*
 # package-lock.json
 # yarn.lock
 # pnpm-lock.yaml
+
+
+
+CAPACITY_ESTIMATE.md
+BACKEND_COMPLETE.md

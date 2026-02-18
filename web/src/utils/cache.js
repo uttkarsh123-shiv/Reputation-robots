@@ -34,7 +34,7 @@ class Cache {
       return null;
     }
 
-    console.log('✅ Cache HIT:', key);
+    console.log('Cache HIT:', key);
     return this.cache.get(key);
   }
 
@@ -44,7 +44,7 @@ class Cache {
   set(key, data) {
     this.cache.set(key, data);
     this.timestamps.set(key, Date.now());
-    console.log('💾 Cache SET:', key);
+    console.log('Cache SET:', key);
   }
 
   /**
@@ -53,7 +53,7 @@ class Cache {
   delete(key) {
     this.cache.delete(key);
     this.timestamps.delete(key);
-    console.log('🗑️ Cache DELETE:', key);
+    console.log('Cache DELETE:', key);
   }
 
   /**
@@ -62,7 +62,7 @@ class Cache {
   clear() {
     this.cache.clear();
     this.timestamps.clear();
-    console.log('🧹 Cache CLEARED');
+    console.log('Cache CLEARED');
   }
 
   /**

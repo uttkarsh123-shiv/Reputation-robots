@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import Favorites from './pages/Favorites';
@@ -10,13 +11,16 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50 flex flex-col">
           <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/favorites" element={<Favorites />} />
-          </Routes>
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/products/:id" element={<ProductDetail />} />
+              <Route path="/favorites" element={<Favorites />} />
+            </Routes>
+          </main>
+          <Footer />
           
           {/* Toast Notifications */}
           <Toaster
