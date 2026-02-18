@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, isAuthenticated, openLoginModal } = useAuth();
+  const { user, isAuthenticated, openLoginModal, reloadUser } = useAuth();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -21,7 +21,19 @@ const ProductDetail = () => {
 
   useEffect(() => {
     if (user && product) {
-      setIsFavorite(user.favorites?.some((fav) => fav._id === product._id || fav === product._id));
+      // Check if product is in favorites - handle both object and string ID formats
+      const isFav = user.favorites?.some((fav) => {
+        const favId = typeof fav === 'string' ? fav : fav._id;
+        return favId === product._id;
+      });
+      console.log('Checking favorite status:', { 
+        productId: product._id, 
+        favorites: user.favorites,
+        isFavorite: isFav 
+      });
+      setIsFavorite(isFav || false);
+    } else {
+      setIsFavorite(false);
     }
   }, [user, product]);
 
@@ -48,13 +60,13 @@ const ProductDetail = () => {
     try {
       if (isFavorite) {
         await favoritesAPI.remove(product._id);
-        setIsFavorite(false);
         toast.success('Removed from favorites');
       } else {
         await favoritesAPI.add(product._id);
-        setIsFavorite(true);
         toast.success('Added to favorites');
       }
+      // Reload user data to get updated favorites
+      await reloadUser();
     } catch (error) {
       toast.error(error.response?.data?.error || 'Failed to update favorites');
     } finally {

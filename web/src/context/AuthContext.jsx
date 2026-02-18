@@ -51,7 +51,11 @@ export const AuthProvider = ({ children }) => {
       setToken(token);
       setUser(user);
       
+      // Reload user to get full favorites data
+      await loadUser();
+      
       toast.success('Welcome back!');
+      closeModals();
       return { success: true };
     } catch (error) {
       const message = error.response?.data?.error || 'Login failed';
@@ -71,7 +75,11 @@ export const AuthProvider = ({ children }) => {
       setToken(token);
       setUser(user);
       
+      // Reload user to get full favorites data
+      await loadUser();
+      
       toast.success('Account created successfully!');
+      closeModals();
       return { success: true };
     } catch (error) {
       const message = error.response?.data?.error || 'Registration failed';
@@ -116,6 +124,7 @@ export const AuthProvider = ({ children }) => {
     openLoginModal,
     openRegisterModal,
     closeModals,
+    reloadUser: loadUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

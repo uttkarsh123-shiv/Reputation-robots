@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 
 const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
-  const { isAuthenticated, openLoginModal } = useAuth();
+  const { isAuthenticated, openLoginModal, reloadUser } = useAuth();
   const [favorite, setFavorite] = useState(isFavorite);
   const [loading, setLoading] = useState(false);
 
@@ -30,7 +30,8 @@ const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
         setFavorite(true);
         toast.success('Added to favorites');
       }
-      // Don't call onFavoriteChange to avoid re-fetching all products
+      // Reload user data to sync favorites
+      await reloadUser();
     } catch (error) {
       toast.error(error.response?.data?.error || 'Failed to update favorites');
     } finally {
