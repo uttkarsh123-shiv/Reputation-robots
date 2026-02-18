@@ -94,7 +94,7 @@ const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
           <div className="flex justify-between items-center">
             <div>
               <span className="text-2xl font-bold text-gray-900">
-                ${product.price.toFixed(2)}
+                ₹{product.price.toLocaleString('en-IN')}
               </span>
             </div>
             <div className="text-right">

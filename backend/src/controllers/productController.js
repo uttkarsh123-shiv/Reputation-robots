@@ -10,6 +10,8 @@ exports.getProducts = async (req, res, next) => {
     const skip = (page - 1) * limit;
     const search = req.query.search || '';
     const category = req.query.category || '';
+    const minPrice = req.query.minPrice ? parseFloat(req.query.minPrice) : null;
+    const maxPrice = req.query.maxPrice ? parseFloat(req.query.maxPrice) : null;
 
     // Build query
     let query = {};
@@ -22,6 +24,13 @@ exports.getProducts = async (req, res, next) => {
     // Filter by category
     if (category) {
       query.category = category;
+    }
+
+    // Filter by price range
+    if (minPrice !== null || maxPrice !== null) {
+      query.price = {};
+      if (minPrice !== null) query.price.$gte = minPrice;
+      if (maxPrice !== null) query.price.$lte = maxPrice;
     }
 
     // Execute query with pagination

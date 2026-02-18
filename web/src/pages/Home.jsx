@@ -22,8 +22,16 @@ const Home = () => {
   const page = parseInt(searchParams.get('page')) || 1;
   const search = searchParams.get('search') || '';
   const category = searchParams.get('category') || '';
+  const priceRange = searchParams.get('priceRange') || '';
 
   const categories = ['All', 'Electronics', 'Fashion', 'Home', 'Sports', 'Books', 'Other'];
+  const priceRanges = [
+    { label: 'All Prices', value: '' },
+    { label: 'Under ₹2,500', value: '0-2500' },
+    { label: '₹2,500 - ₹5,000', value: '2500-5000' },
+    { label: '₹5,000 - ₹10,000', value: '5000-10000' },
+    { label: 'Above ₹10,000', value: '10000-999999' },
+  ];
 
   // Fetch products whenever URL params change
   useEffect(() => {
@@ -34,6 +42,13 @@ const Home = () => {
         ...(search && { search }),
         ...(category && { category }),
       };
+
+      // Add price range filtering
+      if (priceRange) {
+        const [minPrice, maxPrice] = priceRange.split('-').map(Number);
+        params.minPrice = minPrice;
+        params.maxPrice = maxPrice;
+      }
 
       // Generate cache key
       const cacheKey = cache.generateKey(params);
@@ -79,7 +94,7 @@ const Home = () => {
     };
 
     fetchProducts();
-  }, [page, search, category]);
+  }, [page, search, category, priceRange]);
 
   const handleSearch = useCallback((searchTerm) => {
     const newParams = new URLSearchParams(searchParams);
@@ -98,6 +113,17 @@ const Home = () => {
       newParams.set('category', cat);
     } else {
       newParams.delete('category');
+    }
+    newParams.set('page', '1');
+    setSearchParams(newParams);
+  }, [searchParams, setSearchParams]);
+
+  const handlePriceRangeChange = useCallback((range) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (range) {
+      newParams.set('priceRange', range);
+    } else {
+      newParams.delete('priceRange');
     }
     newParams.set('page', '1');
     setSearchParams(newParams);
@@ -133,7 +159,8 @@ const Home = () => {
       {/* Category Filter */}
       <div className="bg-white border-b border-gray-200 sticky top-16 z-40">
         <div className="container mx-auto px-6 py-4">
-          <div className="flex flex-wrap gap-3 justify-center">
+          {/* Category Buttons */}
+          <div className="flex flex-wrap gap-3 justify-center mb-4">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -145,6 +172,23 @@ const Home = () => {
                 }`}
               >
                 {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Price Range Filter */}
+          <div className="flex flex-wrap gap-2 justify-center">
+            {priceRanges.map((range) => (
+              <button
+                key={range.value}
+                onClick={() => handlePriceRangeChange(range.value)}
+                className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
+                  (!priceRange && !range.value) || priceRange === range.value
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                {range.label}
               </button>
             ))}
           </div>

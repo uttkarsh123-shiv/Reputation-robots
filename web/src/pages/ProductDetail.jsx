@@ -117,7 +117,7 @@ const ProductDetail = () => {
             {/* Price & Stock */}
             <div className="flex items-baseline gap-4 pb-6 border-b border-gray-200">
               <span className="text-5xl font-bold text-gray-900">
-                ${product.price.toFixed(2)}
+                ₹{product.price.toLocaleString('en-IN')}
               </span>
               <span className={`text-sm font-medium ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
                 {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
