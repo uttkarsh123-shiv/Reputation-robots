@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
@@ -6,22 +5,27 @@ import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 
 const Navbar = () => {
-  const { user, logout, isAuthenticated } = useAuth();
-  const [showLogin, setShowLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
+  const { 
+    user, 
+    logout, 
+    isAuthenticated, 
+    showLoginModal, 
+    showRegisterModal, 
+    openLoginModal, 
+    openRegisterModal, 
+    closeModals 
+  } = useAuth();
 
   const handleLogout = () => {
     logout();
   };
 
   const switchToRegister = () => {
-    setShowLogin(false);
-    setShowRegister(true);
+    openRegisterModal();
   };
 
   const switchToLogin = () => {
-    setShowRegister(false);
-    setShowLogin(true);
+    openLoginModal();
   };
 
   return (
@@ -75,13 +79,13 @@ const Navbar = () => {
             ) : (
               <div className="flex items-center space-x-4">
                 <button
-                  onClick={() => setShowLogin(true)}
+                  onClick={openLoginModal}
                   className="text-gray-700 hover:text-gray-900 transition-colors text-sm"
                 >
                   Sign in
                 </button>
                 <button
-                  onClick={() => setShowRegister(true)}
+                  onClick={openRegisterModal}
                   className="btn-primary"
                 >
                   Get started
@@ -94,13 +98,13 @@ const Navbar = () => {
 
       {/* Auth Modals */}
       <LoginModal
-        isOpen={showLogin}
-        onClose={() => setShowLogin(false)}
+        isOpen={showLoginModal}
+        onClose={closeModals}
         onSwitchToRegister={switchToRegister}
       />
       <RegisterModal
-        isOpen={showRegister}
-        onClose={() => setShowRegister(false)}
+        isOpen={showRegisterModal}
+        onClose={closeModals}
         onSwitchToLogin={switchToLogin}
       />
     </motion.nav>

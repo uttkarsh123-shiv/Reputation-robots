@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, openLoginModal } = useAuth();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -40,7 +40,7 @@ const ProductDetail = () => {
 
   const handleFavoriteToggle = async () => {
     if (!isAuthenticated) {
-      toast.error('Please login to add favorites');
+      openLoginModal();
       return;
     }
 

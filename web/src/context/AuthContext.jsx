@@ -16,6 +16,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(localStorage.getItem('token'));
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
 
   // Load user on mount if token exists
   useEffect(() => {
@@ -86,6 +88,21 @@ export const AuthProvider = ({ children }) => {
     toast.success('Logged out successfully');
   };
 
+  const openLoginModal = () => {
+    setShowLoginModal(true);
+    setShowRegisterModal(false);
+  };
+
+  const openRegisterModal = () => {
+    setShowRegisterModal(true);
+    setShowLoginModal(false);
+  };
+
+  const closeModals = () => {
+    setShowLoginModal(false);
+    setShowRegisterModal(false);
+  };
+
   const value = {
     user,
     token,
@@ -94,6 +111,11 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     isAuthenticated: !!user,
+    showLoginModal,
+    showRegisterModal,
+    openLoginModal,
+    openRegisterModal,
+    closeModals,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

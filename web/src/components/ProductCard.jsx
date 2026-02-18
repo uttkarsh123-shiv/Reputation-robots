@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 
 const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, openLoginModal } = useAuth();
   const [favorite, setFavorite] = useState(isFavorite);
   const [loading, setLoading] = useState(false);
 
@@ -15,7 +15,7 @@ const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
     e.stopPropagation(); // Prevent event bubbling to Link
     
     if (!isAuthenticated) {
-      toast.error('Please login to add favorites');
+      openLoginModal();
       return;
     }
 
