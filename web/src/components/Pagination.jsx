@@ -20,76 +20,72 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex justify-center items-center gap-3 mt-12">
-      {/* Previous Button */}
+    <div className="flex justify-center items-center gap-2 mt-12">
+      {/* Previous Arrow */}
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`px-6 py-3 rounded-2xl font-medium transition-all flex items-center gap-2 ${
+        className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${
           currentPage === 1
             ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-            : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 hover:border-gray-400'
+            : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
         }`}
       >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
-        Previous
       </button>
 
       {/* Page Numbers */}
-      <div className="flex items-center gap-2">
-        {startPage > 1 && (
-          <>
-            <button
-              onClick={() => onPageChange(1)}
-              className="w-12 h-12 rounded-2xl font-medium bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 hover:border-gray-400 transition-all"
-            >
-              1
-            </button>
-            {startPage > 2 && <span className="text-gray-400 px-2">...</span>}
-          </>
-        )}
-
-        {pages.map((pageNum) => (
+      {startPage > 1 && (
+        <>
           <button
-            key={pageNum}
-            onClick={() => onPageChange(pageNum)}
-            className={`w-12 h-12 rounded-2xl font-medium transition-all ${
-              currentPage === pageNum
-                ? 'bg-blue-600 text-white shadow-lg shadow-blue-200'
-                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 hover:border-gray-400'
-            }`}
+            onClick={() => onPageChange(1)}
+            className="w-10 h-10 rounded-lg font-medium bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 transition-all"
           >
-            {pageNum}
+            1
           </button>
-        ))}
+          {startPage > 2 && <span className="text-gray-400 px-1">...</span>}
+        </>
+      )}
 
-        {endPage < totalPages && (
-          <>
-            {endPage < totalPages - 1 && <span className="text-gray-400 px-2">...</span>}
-            <button
-              onClick={() => onPageChange(totalPages)}
-              className="w-12 h-12 rounded-2xl font-medium bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 hover:border-gray-400 transition-all"
-            >
-              {totalPages}
-            </button>
-          </>
-        )}
-      </div>
+      {pages.map((pageNum) => (
+        <button
+          key={pageNum}
+          onClick={() => onPageChange(pageNum)}
+          className={`w-10 h-10 rounded-lg font-medium transition-all ${
+            currentPage === pageNum
+              ? 'bg-black text-white'
+              : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+          }`}
+        >
+          {pageNum}
+        </button>
+      ))}
 
-      {/* Next Button */}
+      {endPage < totalPages && (
+        <>
+          {endPage < totalPages - 1 && <span className="text-gray-400 px-1">...</span>}
+          <button
+            onClick={() => onPageChange(totalPages)}
+            className="w-10 h-10 rounded-lg font-medium bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 transition-all"
+          >
+            {totalPages}
+          </button>
+        </>
+      )}
+
+      {/* Next Arrow */}
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`px-6 py-3 rounded-2xl font-medium transition-all flex items-center gap-2 ${
+        className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${
           currentPage === totalPages
             ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-            : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 hover:border-gray-400'
+            : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
         }`}
       >
-        Next
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </button>

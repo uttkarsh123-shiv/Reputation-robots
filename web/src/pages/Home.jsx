@@ -139,132 +139,114 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header with Search */}
-      <div className="bg-white border-b border-gray-200 py-6">
-        <div className="container mx-auto px-6">
-          <div className="max-w-2xl mx-auto">
-            <SearchBar onSearch={handleSearch} initialValue={search} />
-          </div>
+      {/* Hero Banner Section - Full Width */}
+      <div className="relative bg-gradient-to-br from-orange-400 via-red-400 to-pink-500 text-white h-[50vh] md:h-[60vh] flex items-center overflow-hidden">
+        {/* Decorative Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-20 h-20 border-4 border-white rounded-full"></div>
+          <div className="absolute bottom-20 right-20 w-32 h-32 border-4 border-white rounded-full"></div>
+          <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-white rounded-full"></div>
+          <div className="absolute top-1/3 right-1/3 w-12 h-12 border-4 border-white transform rotate-45"></div>
         </div>
-      </div>
-
-      {/* Category Tabs */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-6">
-          <div className="flex gap-2 py-4 overflow-x-auto">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => handleCategoryChange(cat)}
-                className={`px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
-                  (cat === 'All' && !category) || category === cat
-                    ? 'bg-black text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                {cat}
+        
+        <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
+          <div className="flex items-center justify-between">
+            <div className="max-w-2xl">
+              <div className="inline-block bg-yellow-400 text-gray-900 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+                Weekend Sale
+              </div>
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                Everything you need<br />in one place!
+              </h1>
+              <p className="text-xl mb-8 text-white/90">
+                Discover amazing deals on electronics, fashion, home essentials, and more.
+              </p>
+              <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-lg text-lg transition-colors shadow-lg">
+                Shop Now
               </button>
-            ))}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content with Sidebar */}
+      {/* Main Content */}
       <div className="container mx-auto px-6 py-8">
         <div className="flex gap-8">
-          {/* Sidebar Filters */}
-          <aside className="hidden lg:block w-64 flex-shrink-0">
-            <div className="bg-white rounded-lg border border-gray-200 p-6 sticky top-24">
-              {/* Filter Header */}
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-bold text-gray-900">Filter & Sort</h2>
-                <button className="text-gray-400 hover:text-gray-600">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-
-              {/* Sort Options */}
-              <div className="mb-6">
-                <label className="flex items-center mb-3 cursor-pointer">
-                  <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
-                  <span className="ml-3 text-sm text-gray-700">Price (High to low)</span>
-                </label>
-                <label className="flex items-center mb-3 cursor-pointer">
-                  <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
-                  <span className="ml-3 text-sm text-gray-700">Price (Low to high)</span>
-                </label>
-                <label className="flex items-center mb-3 cursor-pointer">
-                  <input type="checkbox" checked readOnly className="w-4 h-4 rounded border-gray-300" />
-                  <span className="ml-3 text-sm text-gray-900 font-medium">Relevancy</span>
-                </label>
-                <label className="flex items-center cursor-pointer">
-                  <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
-                  <span className="ml-3 text-sm text-gray-700">Best seller</span>
-                </label>
+          {/* Sidebar */}
+          <aside className="hidden lg:block w-56 flex-shrink-0">
+            <div className="sticky top-24 space-y-8">
+              {/* Categories */}
+              <div>
+                <h3 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wider">
+                  Category
+                </h3>
+                <div className="space-y-2">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => handleCategoryChange(cat)}
+                      className={`w-full text-left px-4 py-2 rounded-lg text-sm transition-all ${
+                        (cat === 'All' && !category) || category === cat
+                          ? 'bg-black text-white font-medium'
+                          : 'text-gray-600 hover:bg-gray-100'
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Price Range */}
-              <div className="border-t border-gray-200 pt-6">
-                <h3 className="text-sm font-bold text-gray-900 mb-4">Price Range</h3>
-                {priceRanges.map((range) => (
-                  <label key={range.value} className="flex items-center mb-3 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="priceRange"
-                      checked={(!priceRange && !range.value) || priceRange === range.value}
-                      onChange={() => handlePriceRangeChange(range.value)}
-                      className="w-4 h-4 text-black border-gray-300"
-                    />
-                    <span className="ml-3 text-sm text-gray-700">{range.label}</span>
-                  </label>
-                ))}
-              </div>
-
-              {/* Category Filter */}
-              <div className="border-t border-gray-200 pt-6 mt-6">
-                <h3 className="text-sm font-bold text-gray-900 mb-4">Category</h3>
-                {categories.slice(1).map((cat) => (
-                  <label key={cat} className="flex items-center mb-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={category === cat}
-                      onChange={() => handleCategoryChange(category === cat ? 'All' : cat)}
-                      className="w-4 h-4 rounded border-gray-300"
-                    />
-                    <span className="ml-3 text-sm text-gray-700">{cat}</span>
-                  </label>
-                ))}
+              <div>
+                <h3 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wider">
+                  Price Range
+                </h3>
+                <div className="space-y-2">
+                  {priceRanges.map((range) => (
+                    <label key={range.value} className="flex items-center cursor-pointer group">
+                      <input
+                        type="radio"
+                        name="priceRange"
+                        checked={(!priceRange && !range.value) || priceRange === range.value}
+                        onChange={() => handlePriceRangeChange(range.value)}
+                        className="w-4 h-4 text-black border-gray-300 focus:ring-black"
+                      />
+                      <span className="ml-3 text-sm text-gray-600 group-hover:text-gray-900">
+                        {range.label}
+                      </span>
+                    </label>
+                  ))}
+                </div>
               </div>
             </div>
           </aside>
 
-          {/* Products Grid */}
+          {/* Products Section */}
           <main className="flex-1">
-            {/* Results Header */}
-            <div className="flex items-center justify-between mb-6">
+            {/* Header with Category Title and Search Bar */}
+            <div className="flex items-center justify-between gap-6 mb-8">
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-1">All Products</h1>
-                <p className="text-sm text-gray-600">
-                  {loading ? 'Loading...' : `${total} results`}
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                  {category || 'Home'}
+                </h2>
+                <p className="text-sm text-gray-500">
+                  {loading ? 'Loading...' : `${total} products available`}
                 </p>
               </div>
-              {fromCache && !loading && (
-                <span className="text-xs bg-green-100 text-green-700 px-3 py-1.5 rounded-full font-medium">
-                  ⚡ Cached
-                </span>
-              )}
+              <div className="flex-shrink-0 w-80">
+                <SearchBar onSearch={handleSearch} initialValue={search} />
+              </div>
             </div>
 
-            {/* Products */}
+            {/* Products Grid */}
             {loading ? (
               <Loading />
             ) : products.length === 0 ? (
-              <div className="text-center py-20 bg-white rounded-lg border border-gray-200">
+              <div className="text-center py-20 bg-white rounded-2xl">
                 <div className="text-6xl mb-4">🔍</div>
                 <p className="text-xl text-gray-600 mb-2">No products found</p>
-                <p className="text-gray-500">Try adjusting your search or filters</p>
+                <p className="text-gray-500">Try adjusting your filters</p>
               </div>
             ) : (
               <>

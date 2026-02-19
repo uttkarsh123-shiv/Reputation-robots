@@ -39,7 +39,7 @@ const ProductCard = ({ product, isFavorite }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl overflow-hidden group hover:shadow-lg transition-all duration-300">
+    <div className="bg-white overflow-hidden group hover:shadow-lg transition-all duration-300">
       <Link to={`/products/${product._id}`}>
         {/* Image Container */}
         <div className="relative aspect-square overflow-hidden bg-gray-100">

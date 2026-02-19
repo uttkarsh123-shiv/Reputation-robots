@@ -2,12 +2,12 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white border-t border-gray-200 mt-auto">
-      <div className="container mx-auto px-6 py-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+    <footer className="bg-white border-t border-gray-200 mt-20">
+      <div className="container mx-auto px-6 py-12">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
           {/* Brand */}
           <div className="text-center md:text-left">
-            <h3 className="text-xl font-serif font-bold text-gray-900 mb-1">
+            <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">
               Micro Marketplace
             </h3>
             <p className="text-sm text-gray-600">
@@ -16,7 +16,7 @@ const Footer = () => {
           </div>
 
           {/* Links */}
-          <div className="flex gap-6 text-sm text-gray-600">
+          <div className="flex gap-8 text-sm text-gray-600">
             <a href="#" className="hover:text-gray-900 transition-colors">
               About
             </a>
@@ -33,7 +33,7 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="mt-6 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
+        <div className="pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
           © {currentYear} Micro Marketplace. All rights reserved.
         </div>
       </div>
