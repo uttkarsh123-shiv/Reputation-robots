@@ -13,25 +13,36 @@ export default function App() {
   return (
     <AuthProvider>
       <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Home"
-          screenOptions={{
-            headerStyle: { backgroundColor: '#000' },
-            headerTintColor: '#fff',
-            headerTitleStyle: { fontWeight: 'bold' },
-          }}
-        >
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
             name="Home"
             component={HomeScreen}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              headerStyle: { backgroundColor: '#000' },
+              headerTintColor: '#fff',
+            }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={{
+              headerStyle: { backgroundColor: '#000' },
+              headerTintColor: '#fff',
+            }}
+          />
           <Stack.Screen
             name="ProductDetail"
             component={ProductDetailScreen}
-            options={{ title: 'Product Details' }}
+            options={{
+              title: 'Product Details',
+              headerStyle: { backgroundColor: '#000' },
+              headerTintColor: '#fff',
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
