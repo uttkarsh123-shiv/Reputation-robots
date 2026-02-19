@@ -5,14 +5,14 @@ import { favoritesAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 
-const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
+const ProductCard = ({ product, isFavorite }) => {
   const { isAuthenticated, openLoginModal, reloadUser } = useAuth();
   const [favorite, setFavorite] = useState(isFavorite);
   const [loading, setLoading] = useState(false);
 
   const handleFavoriteClick = async (e) => {
     e.preventDefault();
-    e.stopPropagation(); // Prevent event bubbling to Link
+    e.stopPropagation();
     
     if (!isAuthenticated) {
       openLoginModal();
@@ -30,7 +30,6 @@ const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
         setFavorite(true);
         toast.success('Added to favorites');
       }
-      // Reload user data to sync favorites
       await reloadUser();
     } catch (error) {
       toast.error(error.response?.data?.error || 'Failed to update favorites');
@@ -40,30 +39,23 @@ const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+    <div className="bg-white rounded-xl overflow-hidden group hover:shadow-lg transition-all duration-300">
       <Link to={`/products/${product._id}`}>
         {/* Image Container */}
-        <div className="relative h-56 overflow-hidden bg-gray-100">
+        <div className="relative aspect-square overflow-hidden bg-gray-100">
           <img
             src={product.image}
             alt={product.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
           
-          {/* Category Badge */}
-          <div className="absolute top-3 left-3">
-            <span className="inline-block bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium">
-              {product.category}
-            </span>
-          </div>
-
-          {/* Favorite Button */}
+          {/* Favorite Button - Keep as is */}
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={handleFavoriteClick}
             disabled={loading}
-            className="absolute top-3 right-3 bg-white rounded-full p-2.5 shadow-md hover:shadow-lg transition-all"
+            className="absolute top-3 right-3 bg-white rounded-full p-2.5 shadow-md hover:shadow-lg transition-all z-10"
           >
             <motion.svg
               animate={favorite ? { scale: [1, 1.3, 1] } : { scale: 1 }}
@@ -83,26 +75,16 @@ const ProductCard = ({ product, isFavorite, onFavoriteChange }) => {
           </motion.button>
         </div>
 
-        {/* Content */}
-        <div className="p-5">
-          <h3 className="font-semibold text-lg text-gray-900 mb-2 line-clamp-1">
+        {/* Content - Minimal Style */}
+        <div className="p-4">
+          <h3 className="font-medium text-base text-gray-900 mb-1 line-clamp-1">
             {product.title}
           </h3>
-          <p className="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">
-            {product.description}
-          </p>
           
-          <div className="flex justify-between items-center">
-            <div>
-              <span className="text-2xl font-bold text-gray-900">
-                ₹{product.price.toLocaleString('en-IN')}
-              </span>
-            </div>
-            <div className="text-right">
-              <span className="text-xs text-gray-500">
-                Stock: {product.stock}
-              </span>
-            </div>
+          <div className="flex items-center justify-between mt-2">
+            <span className="text-lg font-bold text-gray-900">
+              ₹{product.price.toLocaleString('en-IN')}
+            </span>
           </div>
         </div>
       </Link>
