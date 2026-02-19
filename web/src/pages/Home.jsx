@@ -56,7 +56,7 @@ const Home = () => {
       // Try to get from cache first
       const cachedData = cache.get(cacheKey);
       if (cachedData) {
-        console.log('📦 Using cached data');
+        console.log('Using cached data');
         setProducts(cachedData.products);
         setTotalPages(cachedData.totalPages);
         setTotal(cachedData.total);
@@ -69,7 +69,7 @@ const Home = () => {
       setLoading(true);
       setFromCache(false);
       try {
-        console.log('🌐 Fetching from API:', params);
+        console.log('Fetching from API:', params);
         const response = await productsAPI.getAll(params);
         console.log('API Response:', response.data);
         
