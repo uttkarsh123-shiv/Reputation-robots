@@ -138,115 +138,160 @@ const Home = () => {
   }, [searchParams, setSearchParams]);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-b from-gray-50 to-white border-b border-gray-200 py-20">
+    <div className="min-h-screen bg-gray-50">
+      {/* Header with Search */}
+      <div className="bg-white border-b border-gray-200 py-6">
         <div className="container mx-auto px-6">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold text-center mb-6 text-gray-900">
-            Discover products
-          </h1>
-          <p className="text-center text-gray-600 text-lg mb-10 max-w-2xl mx-auto">
-            A curated marketplace for quality products
-          </p>
-
-          {/* Search Bar */}
-          <div className="flex justify-center">
+          <div className="max-w-2xl mx-auto">
             <SearchBar onSearch={handleSearch} initialValue={search} />
           </div>
         </div>
       </div>
 
-      {/* Category Filter */}
-      <div className="bg-white border-b border-gray-200 sticky top-16 z-40">
-        <div className="container mx-auto px-6 py-4">
-          {/* Category Buttons */}
-          <div className="flex flex-wrap gap-3 justify-center mb-4">
+      {/* Category Tabs */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="container mx-auto px-6">
+          <div className="flex gap-2 py-4 overflow-x-auto">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => handleCategoryChange(cat)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                className={`px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                   (cat === 'All' && !category) || category === cat
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-900'
+                    ? 'bg-black text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
                 {cat}
               </button>
             ))}
           </div>
-
-          {/* Price Range Filter */}
-          <div className="flex flex-wrap gap-2 justify-center">
-            {priceRanges.map((range) => (
-              <button
-                key={range.value}
-                onClick={() => handlePriceRangeChange(range.value)}
-                className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
-                  (!priceRange && !range.value) || priceRange === range.value
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                }`}
-              >
-                {range.label}
-              </button>
-            ))}
-          </div>
         </div>
       </div>
 
-      {/* Products Section */}
-      <div className="container mx-auto px-6 py-12">
-        {/* Results Info */}
-        <div className="mb-8 flex items-center justify-between">
-          <p className="text-gray-600 text-sm">
+      {/* Main Content with Sidebar */}
+      <div className="container mx-auto px-6 py-8">
+        <div className="flex gap-8">
+          {/* Sidebar Filters */}
+          <aside className="hidden lg:block w-64 flex-shrink-0">
+            <div className="bg-white rounded-lg border border-gray-200 p-6 sticky top-24">
+              {/* Filter Header */}
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-bold text-gray-900">Filter & Sort</h2>
+                <button className="text-gray-400 hover:text-gray-600">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Sort Options */}
+              <div className="mb-6">
+                <label className="flex items-center mb-3 cursor-pointer">
+                  <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
+                  <span className="ml-3 text-sm text-gray-700">Price (High to low)</span>
+                </label>
+                <label className="flex items-center mb-3 cursor-pointer">
+                  <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
+                  <span className="ml-3 text-sm text-gray-700">Price (Low to high)</span>
+                </label>
+                <label className="flex items-center mb-3 cursor-pointer">
+                  <input type="checkbox" checked readOnly className="w-4 h-4 rounded border-gray-300" />
+                  <span className="ml-3 text-sm text-gray-900 font-medium">Relevancy</span>
+                </label>
+                <label className="flex items-center cursor-pointer">
+                  <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
+                  <span className="ml-3 text-sm text-gray-700">Best seller</span>
+                </label>
+              </div>
+
+              {/* Price Range */}
+              <div className="border-t border-gray-200 pt-6">
+                <h3 className="text-sm font-bold text-gray-900 mb-4">Price Range</h3>
+                {priceRanges.map((range) => (
+                  <label key={range.value} className="flex items-center mb-3 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="priceRange"
+                      checked={(!priceRange && !range.value) || priceRange === range.value}
+                      onChange={() => handlePriceRangeChange(range.value)}
+                      className="w-4 h-4 text-black border-gray-300"
+                    />
+                    <span className="ml-3 text-sm text-gray-700">{range.label}</span>
+                  </label>
+                ))}
+              </div>
+
+              {/* Category Filter */}
+              <div className="border-t border-gray-200 pt-6 mt-6">
+                <h3 className="text-sm font-bold text-gray-900 mb-4">Category</h3>
+                {categories.slice(1).map((cat) => (
+                  <label key={cat} className="flex items-center mb-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={category === cat}
+                      onChange={() => handleCategoryChange(category === cat ? 'All' : cat)}
+                      className="w-4 h-4 rounded border-gray-300"
+                    />
+                    <span className="ml-3 text-sm text-gray-700">{cat}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </aside>
+
+          {/* Products Grid */}
+          <main className="flex-1">
+            {/* Results Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 mb-1">All Products</h1>
+                <p className="text-sm text-gray-600">
+                  {loading ? 'Loading...' : `${total} results`}
+                </p>
+              </div>
+              {fromCache && !loading && (
+                <span className="text-xs bg-green-100 text-green-700 px-3 py-1.5 rounded-full font-medium">
+                  ⚡ Cached
+                </span>
+              )}
+            </div>
+
+            {/* Products */}
             {loading ? (
-              'Loading...'
+              <Loading />
+            ) : products.length === 0 ? (
+              <div className="text-center py-20 bg-white rounded-lg border border-gray-200">
+                <div className="text-6xl mb-4">🔍</div>
+                <p className="text-xl text-gray-600 mb-2">No products found</p>
+                <p className="text-gray-500">Try adjusting your search or filters</p>
+              </div>
             ) : (
               <>
-                {total} {total === 1 ? 'product' : 'products'}
-                {search && ` matching "${search}"`}
-                {category && ` in ${category}`}
-                {' '}- Page {page} of {totalPages}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {products.map((product) => (
+                    <ProductCard
+                      key={product._id}
+                      product={product}
+                      isFavorite={user?.favorites?.some((fav) => fav._id === product._id)}
+                    />
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="mt-12">
+                    <Pagination
+                      currentPage={page}
+                      totalPages={totalPages}
+                      onPageChange={handlePageChange}
+                    />
+                  </div>
+                )}
               </>
             )}
-          </p>
-          {fromCache && !loading && (
-            <span className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-medium">
-              ⚡ Cached
-            </span>
-          )}
+          </main>
         </div>
-
-        {/* Products Grid */}
-        {loading ? (
-          <Loading />
-        ) : products.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="text-6xl mb-4">🔍</div>
-            <p className="text-xl text-gray-600 mb-2">No products found</p>
-            <p className="text-gray-500">Try adjusting your search or filters</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <ProductCard
-                key={product._id}
-                product={product}
-                isFavorite={user?.favorites?.some((fav) => fav._id === product._id)}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* Pagination */}
-        {!loading && products.length > 0 && totalPages > 1 && (
-          <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
-        )}
       </div>
     </div>
   );
