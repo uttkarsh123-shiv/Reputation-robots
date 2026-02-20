@@ -15,7 +15,7 @@ const SearchBar = ({ onSearch, initialValue = '' }) => {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [search, onSearch]);
+  }, [search]); // Only depend on search, not onSearch
 
   return (
     <div className="w-full max-w-2xl">

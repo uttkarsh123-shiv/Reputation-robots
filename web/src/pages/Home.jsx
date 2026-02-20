@@ -16,7 +16,6 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
-  const [fromCache, setFromCache] = useState(false);
 
   // Get params from URL
   const page = parseInt(searchParams.get('page')) || 1;
@@ -33,53 +32,45 @@ const Home = () => {
     { label: 'Above ₹10,000', value: '10000-999999' },
   ];
 
-  // Fetch products whenever URL params change
+  // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
-      const params = {
-        page,
-        limit: 12,
-        ...(search && { search }),
-        ...(category && { category }),
-      };
-
-      // Add price range filtering
-      if (priceRange) {
-        const [minPrice, maxPrice] = priceRange.split('-').map(Number);
-        params.minPrice = minPrice;
-        params.maxPrice = maxPrice;
-      }
-
-      // Generate cache key
-      const cacheKey = cache.generateKey(params);
-
-      // Try to get from cache first
-      const cachedData = cache.get(cacheKey);
-      if (cachedData) {
-        console.log('Using cached data');
-        setProducts(cachedData.products);
-        setTotalPages(cachedData.totalPages);
-        setTotal(cachedData.total);
-        setFromCache(true);
-        setLoading(false);
-        return;
-      }
-
-      // If not in cache, fetch from API
       setLoading(true);
-      setFromCache(false);
       try {
-        console.log('Fetching from API:', params);
-        const response = await productsAPI.getAll(params);
-        console.log('API Response:', response.data);
+        const params = {
+          page,
+          limit: 12,
+          ...(search && { search }),
+          ...(category && { category }),
+        };
+
+        if (priceRange) {
+          const [minPrice, maxPrice] = priceRange.split('-').map(Number);
+          params.minPrice = minPrice;
+          params.maxPrice = maxPrice;
+        }
+
+        // Check cache
+        const cacheKey = cache.generateKey(params);
+        const cachedData = cache.get(cacheKey);
         
+        if (cachedData) {
+          setProducts(cachedData.products);
+          setTotalPages(cachedData.totalPages);
+          setTotal(cachedData.total);
+          setLoading(false);
+          return;
+        }
+
+        // Fetch from API
+        const response = await productsAPI.getAll(params);
         const data = {
           products: response.data.products,
           totalPages: response.data.totalPages,
           total: response.data.total,
         };
 
-        // Store in cache
+        // Cache it
         cache.set(cacheKey, data);
 
         setProducts(data.products);
@@ -96,6 +87,7 @@ const Home = () => {
     fetchProducts();
   }, [page, search, category, priceRange]);
 
+  // Wrap handlers in useCallback to prevent SearchBar re-triggering
   const handleSearch = useCallback((searchTerm) => {
     const newParams = new URLSearchParams(searchParams);
     if (searchTerm) {
@@ -107,7 +99,7 @@ const Home = () => {
     setSearchParams(newParams);
   }, [searchParams, setSearchParams]);
 
-  const handleCategoryChange = useCallback((cat) => {
+  const handleCategoryChange = (cat) => {
     const newParams = new URLSearchParams(searchParams);
     if (cat && cat !== 'All') {
       newParams.set('category', cat);
@@ -116,9 +108,9 @@ const Home = () => {
     }
     newParams.set('page', '1');
     setSearchParams(newParams);
-  }, [searchParams, setSearchParams]);
+  };
 
-  const handlePriceRangeChange = useCallback((range) => {
+  const handlePriceRangeChange = (range) => {
     const newParams = new URLSearchParams(searchParams);
     if (range) {
       newParams.set('priceRange', range);
@@ -127,21 +119,19 @@ const Home = () => {
     }
     newParams.set('page', '1');
     setSearchParams(newParams);
-  }, [searchParams, setSearchParams]);
+  };
 
-  const handlePageChange = useCallback((newPage) => {
-    console.log('Page change requested:', newPage);
+  const handlePageChange = (newPage) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set('page', newPage.toString());
     setSearchParams(newParams);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [searchParams, setSearchParams]);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Banner Section - Full Width */}
+      {/* Hero Banner */}
       <div className="relative bg-gradient-to-br from-orange-400 via-red-400 to-pink-500 text-white h-[50vh] md:h-[60vh] flex items-center overflow-hidden">
-        {/* Decorative Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-20 h-20 border-4 border-white rounded-full"></div>
           <div className="absolute bottom-20 right-20 w-32 h-32 border-4 border-white rounded-full"></div>
@@ -224,7 +214,7 @@ const Home = () => {
 
           {/* Products Section */}
           <main className="flex-1">
-            {/* Header with Category Title and Search Bar */}
+            {/* Header */}
             <div className="flex items-center justify-between gap-6 mb-8">
               <div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">
@@ -262,13 +252,11 @@ const Home = () => {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                  <div className="mt-12">
-                    <Pagination
-                      currentPage={page}
-                      totalPages={totalPages}
-                      onPageChange={handlePageChange}
-                    />
-                  </div>
+                  <Pagination
+                    currentPage={page}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
                 )}
               </>
             )}
