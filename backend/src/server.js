@@ -12,10 +12,20 @@ connectDB();
 
 const app = express();
 
+// CORS - Allow these frontend URLs
+const allowedOrigins = [
+  'https://market-place-olive.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://127.0.0.1:5173',
+  'http://192.168.1.6:5173',
+];
+
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: allowedOrigins,
   credentials: true,
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

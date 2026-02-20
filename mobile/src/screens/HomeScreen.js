@@ -64,7 +64,9 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.title} numberOfLines={2}>
           {item.title}
         </Text>
-        <Text style={styles.price}>₹{item.price.toLocaleString('en-IN')}</Text>
+        <Text style={styles.price}>
+          ₹{item.price ? item.price.toLocaleString('en-IN') : '0'}
+        </Text>
       </View>
       <TouchableOpacity
         style={styles.favoriteBtn}

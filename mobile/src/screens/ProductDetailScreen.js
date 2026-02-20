@@ -53,12 +53,22 @@ const ProductDetailScreen = ({ route, navigation }) => {
     return <ActivityIndicator size="large" color="#000" style={styles.loader} />;
   }
 
+  if (!product) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Product not found</Text>
+      </View>
+    );
+  }
+
   return (
     <ScrollView style={styles.container}>
       <Image source={{ uri: product.image }} style={styles.image} />
       <View style={styles.content}>
         <Text style={styles.title}>{product.title}</Text>
-        <Text style={styles.price}>₹{product.price.toLocaleString('en-IN')}</Text>
+        <Text style={styles.price}>
+          ₹{product.price ? product.price.toLocaleString('en-IN') : '0'}
+        </Text>
         <Text style={styles.category}>{product.category}</Text>
         <Text style={styles.description}>{product.description}</Text>
         <TouchableOpacity style={styles.favoriteBtn} onPress={toggleFavorite}>
@@ -89,6 +99,8 @@ const styles = StyleSheet.create({
   },
   favoriteBtnText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
   loader: { flex: 1, justifyContent: 'center' },
+  errorContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  errorText: { fontSize: 18, color: '#6b7280' },
 });
 
 export default ProductDetailScreen;
