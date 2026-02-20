@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const { cache, generateKey } = require('../utils/cache');
 
 exports.getProducts = async (req, res, next) => {
   try {
@@ -9,6 +10,20 @@ exports.getProducts = async (req, res, next) => {
     const category = req.query.category || '';
     const minPrice = req.query.minPrice ? parseFloat(req.query.minPrice) : null;
     const maxPrice = req.query.maxPrice ? parseFloat(req.query.maxPrice) : null;
+
+    const cacheKey = generateKey('products', {
+      page,
+      limit,
+      search,
+      category,
+      minPrice: minPrice || '',
+      maxPrice: maxPrice || '',
+    });
+
+    const cachedData = cache.get(cacheKey);
+    if (cachedData) {
+      return res.status(200).json(cachedData);
+    }
 
     let query = {};
 
@@ -33,14 +48,18 @@ exports.getProducts = async (req, res, next) => {
 
     const total = await Product.countDocuments(query);
 
-    res.status(200).json({
+    const response = {
       success: true,
       count: products.length,
       total,
       page,
       totalPages: Math.ceil(total / limit),
       products,
-    });
+    };
+
+    cache.set(cacheKey, response);
+
+    res.status(200).json(response);
   } catch (error) {
     next(error);
   }
@@ -51,6 +70,13 @@ exports.getProducts = async (req, res, next) => {
 // @access  Public
 exports.getProduct = async (req, res, next) => {
   try {
+    const cacheKey = `product:${req.params.id}`;
+    const cachedProduct = cache.get(cacheKey);
+    
+    if (cachedProduct) {
+      return res.status(200).json(cachedProduct);
+    }
+
     const product = await Product.findById(req.params.id);
 
     if (!product) {
@@ -60,10 +86,14 @@ exports.getProduct = async (req, res, next) => {
       });
     }
 
-    res.status(200).json({
+    const response = {
       success: true,
       product,
-    });
+    };
+
+    cache.set(cacheKey, response);
+
+    res.status(200).json(response);
   } catch (error) {
     next(error);
   }
@@ -93,6 +123,8 @@ exports.createProduct = async (req, res, next) => {
       stock,
     });
 
+    cache.flushAll();
+
     res.status(201).json({
       success: true,
       product,
@@ -121,6 +153,8 @@ exports.updateProduct = async (req, res, next) => {
       runValidators: true,
     });
 
+    cache.flushAll();
+
     res.status(200).json({
       success: true,
       product,
@@ -145,6 +179,8 @@ exports.deleteProduct = async (req, res, next) => {
     }
 
     await product.deleteOne();
+
+    cache.flushAll();
 
     res.status(200).json({
       success: true,
