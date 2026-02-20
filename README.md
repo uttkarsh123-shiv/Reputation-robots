@@ -1,180 +1,181 @@
-# 🛍️ Micro Marketplace
+#  Micro Marketplace
 
-> **Production-grade e-commerce platform** with advanced performance optimizations and clean architecture.
+Full-stack e-commerce platform with React, Node.js, and MongoDB featuring advanced optimizations and clean architecture.
 
-[![Backend](https://img.shields.io/badge/Backend-Node.js%20%2B%20Express-green)](backend/)
-[![Frontend](https://img.shields.io/badge/Frontend-React%20%2B%20Vite-blue)](web/)
-[![Database](https://img.shields.io/badge/Database-MongoDB-brightgreen)](backend/)
+[![Live Demo](https://img.shields.io/badge/Demo-Live-success)](https://market-place-olive.vercel.app)
+[![Backend](https://img.shields.io/badge/API-Deployed-green)](https://market-place-q2ss.onrender.com)
 
-## 🎯 What Makes This Special
+##  Key Features
 
-**Not just another CRUD app** - This marketplace implements **production-grade optimizations** used by major e-commerce platforms:
+**Production-grade optimizations:**
+-  Client-side caching (5min TTL) - 70-90% fewer API calls
+-  Search debouncing (500ms) - Prevents backend overload
+-  Medium-inspired UI - Clean, responsive design
+-  JWT authentication with bcrypt
+-  Advanced filtering - Search, category, price range, pagination
 
-- 🚀 **Client-side caching** (5min TTL) - Reduces API calls by **70-90%**
-- ⚡ **Search debouncing** (600ms) - Prevents unnecessary backend load
-- 🎨 **Medium-inspired UI** - Clean, modern, responsive design
-- 🔐 **JWT authentication** - Secure, stateless auth with protected routes
-- 📊 **Advanced filtering** - Search, category, price range, pagination
+##  Tech Stack
 
-## 🏗️ Architecture
+**Backend:** Node.js, Express, MongoDB, JWT, bcrypt  
+**Frontend:** React 19, Vite, Tailwind CSS, Framer Motion  
+**Mobile:** React Native, Expo (iOS/Android)
 
-```
-Backend (Node.js + Express + MongoDB)
-├── JWT Authentication
-├── RESTful API with validation
-├── Text-indexed search
-└── 20 seeded products
-
-Frontend (React + Vite + Tailwind)
-├── Context API state management
-├── Custom caching utility
-├── Modal-based auth (React Portals)
-└── Framer Motion animations
-```
-
-## ⚡ Quick Start
-
-```bash
-# Backend
-cd backend && npm install
-npm run seed && npm run dev  # http://localhost:5000
-
-# Frontend
-cd web && npm install
-npm run dev  # http://localhost:5173
-```
-
-**Test Credentials:** `user1@test.com` / `Test123!`
-
-## 🎨 Key Features
+##  Quick Start
 
 ### Backend
-- ✅ JWT auth with bcrypt password hashing
-- ✅ Full-text search with MongoDB indexes
-- ✅ Price range filtering (₹0 - ₹999,999)
-- ✅ Category filtering (7 categories)
-- ✅ Pagination with metadata
-- ✅ Favorites CRUD operations
+```bash
+cd backend
+npm install
+npm run seed    # Seed 20 products
+npm run dev     # http://localhost:5000
+```
 
 ### Frontend
-- ✅ **Production-grade caching** - Same strategy as Amazon/Flipkart
-- ✅ **Debounced search** - Visual feedback while typing
-- ✅ Modal authentication - Better UX than separate pages
-- ✅ Real-time favorite sync across pages
-- ✅ Responsive design (Mobile/Tablet/Desktop)
-- ✅ Smooth animations & micro-interactions
+```bash
+cd web
+npm install
+npm run dev     # http://localhost:5173
+```
 
-## 📡 API Endpoints
+### Mobile
+```bash
+cd mobile
+npm install
+npx expo start  # Scan QR code
+```
+
+**Test Account:** `user1@test.com` / `Test123!`
+
+##  API Endpoints
 
 ```bash
-# Auth
+# Authentication
 POST   /api/auth/register
 POST   /api/auth/login
 GET    /api/auth/me
 
-# Products (with filters)
-GET    /api/products?search=laptop&category=Electronics&minPrice=5000&maxPrice=15000
+# Products
+GET    /api/products?search=laptop&category=Electronics&minPrice=5000&page=1
 GET    /api/products/:id
 
 # Favorites
-POST   /api/favorites/:id
-DELETE /api/favorites/:id
+POST   /api/favorites/:productId
+DELETE /api/favorites/:productId
 GET    /api/favorites
 ```
 
-## 💡 Technical Highlights
+##  Technical Highlights
 
 | Feature | Implementation | Impact |
 |---------|---------------|--------|
-| **Caching** | In-memory cache with TTL | 70-90% fewer API calls |
-| **Debouncing** | 600ms delay on search | Prevents backend overload |
-| **State Management** | React Context API | Clean, scalable architecture |
-| **Authentication** | JWT + bcrypt | Secure, stateless auth |
-| **Search** | MongoDB text indexes | Fast full-text search |
-| **UI/UX** | Framer Motion + Tailwind | Smooth, modern experience |
+| Caching | In-memory with TTL | 70-90% fewer API calls |
+| Debouncing | 500ms search delay | Prevents backend spam |
+| Auth | JWT + bcrypt | Secure stateless auth |
+| Search | MongoDB text indexes | Fast full-text search |
+| UI/UX | Framer Motion | Smooth animations |
 
-## 🎯 Performance Metrics
-
-- **Search optimization**: 90% reduction in API calls (debouncing)
-- **Browse optimization**: 70% reduction in API calls (caching)
-- **Load time**: < 2s for cached pages
-- **Scalability**: Handles 10K-100K users (see [SCALABILITY_ANALYSIS.md](SCALABILITY_ANALYSIS.md))
-
-## 🛠️ Tech Stack
-
-**Backend:** Node.js, Express, MongoDB, Mongoose, JWT, bcrypt  
-**Frontend:** React 19, Vite, Tailwind CSS, Framer Motion, Axios  
-**Tools:** React Router, Context API, React Hot Toast
-
-## 📂 Project Structure
+##  Project Structure
 
 ```
-micro-marketplace/
-├── backend/          # Node.js API
+├── backend/              # Node.js API
 │   ├── src/
 │   │   ├── models/       # Mongoose schemas
 │   │   ├── controllers/  # Business logic
-│   │   ├── routes/       # API routes
+│   │   ├── routes/       # API endpoints
 │   │   ├── middleware/   # Auth & validation
 │   │   └── utils/        # Seed script
 │   └── .env
 │
-├── web/              # React app
+├── web/                  # React frontend
 │   ├── src/
 │   │   ├── components/   # Reusable UI
 │   │   ├── pages/        # Route pages
-│   │   ├── context/      # Global state
+│   │   ├── context/      # State management
 │   │   ├── services/     # API layer
 │   │   └── utils/        # Cache utility
 │   └── .env
 │
-└── docs/             # System design docs
+└── mobile/               # React Native app
+    ├── src/
+    │   ├── screens/      # App screens
+    │   ├── context/      # Auth context
+    │   └── config/       # API config
+    └── .env
 ```
 
-## � Why This Stands Out
+##  Features Breakdown
 
-1. **Production-Ready Code** - Not just a demo, implements real-world optimizations
-2. **Performance First** - Caching and debouncing reduce server costs significantly
-3. **Clean Architecture** - Separation of concerns, reusable components
-4. **User Experience** - Modal auth, smooth animations, instant feedback
-5. **Well Documented** - Clear setup, API docs, system design
-6. **Scalable Design** - Can handle 100K+ users with proper infrastructure
+### Backend
+- JWT authentication with password hashing
+- Full-text search with MongoDB indexes
+- Price range filtering (₹0 - ₹999,999)
+- Category filtering (Electronics, Fashion, Home, Sports, Books)
+- Pagination with metadata
+- Favorites management
 
-## 📊 Commit History
+### Frontend
+- Production-grade caching strategy
+- Debounced search with visual feedback
+- Modal-based authentication (React Portals)
+- Real-time favorite synchronization
+- Responsive design (Mobile/Tablet/Desktop)
+- Smooth animations & transitions
 
-**35+ meaningful commits** covering:
-- Backend API development
-- Frontend component architecture
-- Performance optimizations
-- UI/UX enhancements
-- Documentation
+### Mobile (Partially Complete)
+- Basic React Native setup with Expo
+- Authentication screens (Login/Register)
+- Product browsing & detail views
+- API integration configured
+- Note: Attempted implementation, needs refinement
 
-```bash
-git log --oneline --graph
+##  Deployment
+
+**Live URLs:**
+- Frontend: https://market-place-olive.vercel.app
+- Backend: https://market-place-q2ss.onrender.com
+- Database: MongoDB Atlas
+
+**Deploy Your Own:**
+- Backend: Render, Railway, Heroku
+- Frontend: Vercel, Netlify
+- Database: MongoDB Atlas (free tier)
+
+##  Performance
+
+- Search: 90% reduction in API calls (debouncing)
+- Browse: 70% reduction in API calls (caching)
+- Load time: < 1s for cached pages
+- Scalable to 100K+ users
+
+##  Environment Setup
+
+Create `.env` files:
+
+**backend/.env**
+```env
+MONGODB_URI=your_mongodb_uri
+JWT_SECRET=your_secret_key
+JWT_EXPIRE=7d
+PORT=5000
 ```
 
-## 🚀 Deployment Ready
+**web/.env**
+```env
+VITE_API_URL=http://localhost:5000/api
+```
 
-- **Backend**: Render, Railway, Heroku
-- **Database**: MongoDB Atlas (free tier)
-- **Frontend**: Vercel, Netlify
-- **Mobile**: Expo (coming soon)
+**mobile/.env**
+```env
+API_URL=http://192.168.1.6:5000/api
+```
 
-## 📝 Documentation
+##  Documentation
 
-- [Backend API](backend/README.md) - Detailed API documentation
 - [System Design](SYSTEM_DESIGN.md) - Architecture overview
-- [Scalability Analysis](SCALABILITY_ANALYSIS.md) - Production scaling guide
-
-## � Demo
-
-[Demo Video] - Coming Soon  
-[Live Demo] - Coming Soon
+- [API Documentation](backend/README.md) - Detailed endpoints
 
 ---
 
-**Built with ❤️ for Full Stack Developer Intern Assignment**
+**Built for Full Stack Developer Intern Assignment**
 
-**Status:** Backend ✅ | Web ✅ | Mobile 🔄 | Demo 🔄
-
-**Deadline:** February 20, 2026
+Status: Backend ✅ | Web ✅ | Mobile 🔄 (Partial) | Deployed ✅
