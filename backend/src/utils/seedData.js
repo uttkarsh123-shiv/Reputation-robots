@@ -4,7 +4,6 @@ const connectDB = require('../config/db');
 const User = require('../models/User');
 const Product = require('../models/Product');
 
-// Sample products data
 const products = [
   {
     title: 'Wireless Bluetooth Headphones',
@@ -86,7 +85,6 @@ const products = [
     category: 'Sports',
     stock: 150,
   },
-  // 10 NEW PRODUCTS
   {
     title: 'Mechanical Gaming Keyboard',
     description: 'RGB backlit mechanical keyboard with customizable keys. Cherry MX switches for ultimate gaming performance and durability.',
@@ -169,7 +167,6 @@ const products = [
   },
 ];
 
-// Sample users data
 const users = [
   {
     name: 'John Doe',
@@ -183,28 +180,22 @@ const users = [
   },
 ];
 
-// Seed function
 const seedData = async () => {
   try {
-    // Connect to database
     await connectDB();
 
-    // Clear existing data
     console.log('Clearing existing data...');
     await User.deleteMany();
     await Product.deleteMany();
 
-    // Insert users
     console.log('Creating users...');
     const createdUsers = await User.create(users);
     console.log(`✓ Created ${createdUsers.length} users`);
 
-    // Insert products
     console.log('Creating products...');
     const createdProducts = await Product.create(products);
     console.log(`✓ Created ${createdProducts.length} products`);
 
-    // Add some favorites to first user
     const user1 = createdUsers[0];
     user1.favorites = [createdProducts[0]._id, createdProducts[1]._id, createdProducts[4]._id];
     await user1.save();
@@ -222,5 +213,4 @@ const seedData = async () => {
   }
 };
 
-// Run seed function
 seedData();

@@ -1,7 +1,6 @@
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pages = [];
   
-  // Show max 5 page numbers
   let startPage = Math.max(1, currentPage - 2);
   let endPage = Math.min(totalPages, currentPage + 2);
 
@@ -21,7 +20,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
   return (
     <div className="flex justify-center items-center gap-2 mt-12">
-      {/* Previous Arrow */}
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
@@ -36,7 +34,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         </svg>
       </button>
 
-      {/* Page Numbers */}
       {startPage > 1 && (
         <>
           <button
@@ -75,7 +72,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         </>
       )}
 
-      {/* Next Arrow */}
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}

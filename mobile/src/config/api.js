@@ -1,11 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Production API URL
 const API_URL = 'https://market-place-q2ss.onrender.com/api';
-
-// For local development, uncomment below and comment above:
-// const API_URL = 'http://192.168.1.6:5000/api';
 
 console.log('API URL:', API_URL);
 
@@ -17,7 +13,6 @@ const api = axios.create({
   timeout: 10000,
 });
 
-// Add token to requests
 api.interceptors.request.use(async (config) => {
   const token = await AsyncStorage.getItem('token');
   if (token) {
@@ -26,7 +21,6 @@ api.interceptors.request.use(async (config) => {
   return config;
 });
 
-// Handle errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {

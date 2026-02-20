@@ -1,14 +1,10 @@
 const User = require('../models/User');
 const Product = require('../models/Product');
 
-// @desc    Add product to favorites
-// @route   POST /api/favorites/:productId
-// @access  Private
 exports.addFavorite = async (req, res, next) => {
   try {
     const { productId } = req.params;
 
-    // Check if product exists
     const product = await Product.findById(productId);
     if (!product) {
       return res.status(404).json({
@@ -17,10 +13,8 @@ exports.addFavorite = async (req, res, next) => {
       });
     }
 
-    // Get user
     const user = await User.findById(req.user.id);
 
-    // Check if already in favorites
     if (user.favorites.includes(productId)) {
       return res.status(400).json({
         success: false,
@@ -28,7 +22,6 @@ exports.addFavorite = async (req, res, next) => {
       });
     }
 
-    // Add to favorites
     user.favorites.push(productId);
     await user.save();
 
@@ -42,17 +35,12 @@ exports.addFavorite = async (req, res, next) => {
   }
 };
 
-// @desc    Remove product from favorites
-// @route   DELETE /api/favorites/:productId
-// @access  Private
 exports.removeFavorite = async (req, res, next) => {
   try {
     const { productId } = req.params;
 
-    // Get user
     const user = await User.findById(req.user.id);
 
-    // Check if in favorites
     if (!user.favorites.includes(productId)) {
       return res.status(400).json({
         success: false,
@@ -60,7 +48,6 @@ exports.removeFavorite = async (req, res, next) => {
       });
     }
 
-    // Remove from favorites
     user.favorites = user.favorites.filter(
       (id) => id.toString() !== productId
     );
@@ -76,9 +63,6 @@ exports.removeFavorite = async (req, res, next) => {
   }
 };
 
-// @desc    Get user favorites
-// @route   GET /api/favorites
-// @access  Private
 exports.getFavorites = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id).populate('favorites');

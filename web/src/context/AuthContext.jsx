@@ -19,7 +19,6 @@ export const AuthProvider = ({ children }) => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
 
-  // Load user on mount if token exists
   useEffect(() => {
     if (token) {
       loadUser();
@@ -51,7 +50,6 @@ export const AuthProvider = ({ children }) => {
       setToken(token);
       setUser(user);
       
-      // Reload user to get full favorites data
       await loadUser();
       
       toast.success('Welcome back!');
@@ -75,7 +73,6 @@ export const AuthProvider = ({ children }) => {
       setToken(token);
       setUser(user);
       
-      // Reload user to get full favorites data
       await loadUser();
       
       toast.success('Account created successfully!');

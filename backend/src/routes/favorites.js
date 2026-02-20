@@ -7,7 +7,6 @@ const {
 } = require('../controllers/favoriteController');
 const { protect } = require('../middleware/auth');
 
-// All routes are protected (require authentication)
 router.get('/', protect, getFavorites);
 router.post('/:productId', protect, addFavorite);
 router.delete('/:productId', protect, removeFavorite);

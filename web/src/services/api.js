@@ -2,9 +2,6 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-console.log('Frontend API URL:', API_URL);
-
-// Create axios instance
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -12,7 +9,6 @@ const api = axios.create({
   },
 });
 
-// Add token to requests if it exists
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -26,12 +22,10 @@ api.interceptors.request.use(
   }
 );
 
-// Handle response errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Unauthorized - clear token and redirect to login
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';
@@ -40,14 +34,12 @@ api.interceptors.response.use(
   }
 );
 
-// Auth API
 export const authAPI = {
   register: (data) => api.post('/auth/register', data),
   login: (data) => api.post('/auth/login', data),
   getMe: () => api.get('/auth/me'),
 };
 
-// Products API
 export const productsAPI = {
   getAll: (params) => api.get('/products', { params }),
   getOne: (id) => api.get(`/products/${id}`),
@@ -56,7 +48,6 @@ export const productsAPI = {
   delete: (id) => api.delete(`/products/${id}`),
 };
 
-// Favorites API
 export const favoritesAPI = {
   getAll: () => api.get('/favorites'),
   add: (productId) => api.post(`/favorites/${productId}`),

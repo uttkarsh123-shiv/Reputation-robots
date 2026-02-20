@@ -21,7 +21,6 @@ const ProductDetail = () => {
 
   useEffect(() => {
     if (user && product) {
-      // Check if product is in favorites - handle both object and string ID formats
       const isFav = user.favorites?.some((fav) => {
         const favId = typeof fav === 'string' ? fav : fav._id;
         return favId === product._id;
@@ -65,7 +64,6 @@ const ProductDetail = () => {
         await favoritesAPI.add(product._id);
         toast.success('Added to favorites');
       }
-      // Reload user data to get updated favorites
       await reloadUser();
     } catch (error) {
       toast.error(error.response?.data?.error || 'Failed to update favorites');
@@ -80,7 +78,6 @@ const ProductDetail = () => {
   return (
     <div className="min-h-screen bg-white py-8">
       <div className="container mx-auto px-6">
-        {/* Back Button */}
         <motion.button
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -95,7 +92,6 @@ const ProductDetail = () => {
         </motion.button>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Product Image */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -108,25 +104,21 @@ const ProductDetail = () => {
             />
           </motion.div>
 
-          {/* Product Info */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             className="space-y-6"
           >
-            {/* Category Badge */}
             <div>
               <span className="inline-block bg-blue-500 text-white px-4 py-1.5 rounded-full text-sm font-medium">
                 {product.category}
               </span>
             </div>
 
-            {/* Title */}
             <h1 className="text-4xl font-bold text-gray-900 leading-tight">
               {product.title}
             </h1>
 
-            {/* Price & Stock */}
             <div className="flex items-baseline gap-4 pb-6 border-b border-gray-200">
               <span className="text-5xl font-bold text-gray-900">
                 ₹{product.price.toLocaleString('en-IN')}
@@ -136,7 +128,6 @@ const ProductDetail = () => {
               </span>
             </div>
 
-            {/* Description */}
             <div>
               <h2 className="text-lg font-semibold mb-3 text-gray-900">
                 About this product
@@ -146,7 +137,6 @@ const ProductDetail = () => {
               </p>
             </div>
 
-            {/* Favorite Button */}
             <div className="pt-4">
               <motion.button
                 whileHover={{ scale: 1.02 }}
@@ -170,7 +160,6 @@ const ProductDetail = () => {
               </motion.button>
             </div>
 
-            {/* Product Details */}
             <div className="bg-gray-50 rounded-2xl p-6 space-y-4">
               <h3 className="font-semibold text-gray-900">Product Details</h3>
               <div className="space-y-3 text-sm">

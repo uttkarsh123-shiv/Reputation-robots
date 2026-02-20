@@ -17,7 +17,6 @@ const Home = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
 
-  // Get params from URL
   const page = parseInt(searchParams.get('page')) || 1;
   const search = searchParams.get('search') || '';
   const category = searchParams.get('category') || '';
@@ -32,7 +31,6 @@ const Home = () => {
     { label: 'Above ₹10,000', value: '10000-999999' },
   ];
 
-  // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -50,7 +48,6 @@ const Home = () => {
           params.maxPrice = maxPrice;
         }
 
-        // Check cache
         const cacheKey = cache.generateKey(params);
         const cachedData = cache.get(cacheKey);
         
@@ -62,7 +59,6 @@ const Home = () => {
           return;
         }
 
-        // Fetch from API
         const response = await productsAPI.getAll(params);
         const data = {
           products: response.data.products,
@@ -70,7 +66,6 @@ const Home = () => {
           total: response.data.total,
         };
 
-        // Cache it
         cache.set(cacheKey, data);
 
         setProducts(data.products);
@@ -87,7 +82,6 @@ const Home = () => {
     fetchProducts();
   }, [page, search, category, priceRange]);
 
-  // Wrap handlers in useCallback to prevent SearchBar re-triggering
   const handleSearch = useCallback((searchTerm) => {
     const newParams = new URLSearchParams(searchParams);
     if (searchTerm) {
@@ -130,7 +124,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Banner */}
       <div className="relative bg-gradient-to-br from-orange-400 via-red-400 to-pink-500 text-white h-[50vh] md:h-[60vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-20 h-20 border-4 border-white rounded-full"></div>
@@ -159,13 +152,10 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="container mx-auto px-6 py-8">
         <div className="flex gap-8">
-          {/* Sidebar */}
           <aside className="hidden lg:block w-56 flex-shrink-0">
             <div className="sticky top-24 space-y-8">
-              {/* Categories */}
               <div>
                 <h3 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wider">
                   Category
@@ -187,7 +177,6 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Price Range */}
               <div>
                 <h3 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wider">
                   Price Range
@@ -212,9 +201,7 @@ const Home = () => {
             </div>
           </aside>
 
-          {/* Products Section */}
           <main className="flex-1">
-            {/* Header */}
             <div className="flex items-center justify-between gap-6 mb-8">
               <div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">
@@ -229,7 +216,6 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Products Grid */}
             {loading ? (
               <Loading />
             ) : products.length === 0 ? (
@@ -250,7 +236,6 @@ const Home = () => {
                   ))}
                 </div>
 
-                {/* Pagination */}
                 {totalPages > 1 && (
                   <Pagination
                     currentPage={page}

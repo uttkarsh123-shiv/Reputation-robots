@@ -3,19 +3,17 @@ import { useState, useEffect } from 'react';
 const SearchBar = ({ onSearch, initialValue = '' }) => {
   const [search, setSearch] = useState(initialValue);
 
-  // Update local state when initialValue changes (from URL)
   useEffect(() => {
     setSearch(initialValue);
   }, [initialValue]);
 
-  // Debounced search - triggers automatically after 500ms
   useEffect(() => {
     const timer = setTimeout(() => {
       onSearch(search);
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [search]); // Only depend on search, not onSearch
+  }, [search]);
 
   return (
     <div className="w-full max-w-2xl">

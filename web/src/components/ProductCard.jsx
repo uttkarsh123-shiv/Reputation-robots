@@ -41,7 +41,6 @@ const ProductCard = ({ product, isFavorite }) => {
   return (
     <div className="bg-white overflow-hidden group hover:shadow-lg transition-all duration-300">
       <Link to={`/products/${product._id}`}>
-        {/* Image Container */}
         <div className="relative aspect-square overflow-hidden bg-gray-100">
           <img
             src={product.image}
@@ -49,7 +48,6 @@ const ProductCard = ({ product, isFavorite }) => {
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
           
-          {/* Favorite Button - Keep as is */}
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -75,7 +73,6 @@ const ProductCard = ({ product, isFavorite }) => {
           </motion.button>
         </div>
 
-        {/* Content - Minimal Style */}
         <div className="p-4">
           <h3 className="font-medium text-base text-gray-900 mb-1 line-clamp-1">
             {product.title}

@@ -40,7 +40,6 @@ const Favorites = () => {
   return (
     <div className="min-h-screen bg-white py-12">
       <div className="container mx-auto px-6">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -56,7 +55,6 @@ const Favorites = () => {
           </p>
         </motion.div>
 
-        {/* Favorites Grid */}
         {favorites.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}

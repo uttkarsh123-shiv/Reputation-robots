@@ -1,8 +1,5 @@
 const Product = require('../models/Product');
 
-// @desc    Get all products with search and pagination
-// @route   GET /api/products
-// @access  Public
 exports.getProducts = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -13,33 +10,27 @@ exports.getProducts = async (req, res, next) => {
     const minPrice = req.query.minPrice ? parseFloat(req.query.minPrice) : null;
     const maxPrice = req.query.maxPrice ? parseFloat(req.query.maxPrice) : null;
 
-    // Build query
     let query = {};
 
-    // Search by title or description
     if (search) {
       query.$text = { $search: search };
     }
 
-    // Filter by category
     if (category) {
       query.category = category;
     }
 
-    // Filter by price range
     if (minPrice !== null || maxPrice !== null) {
       query.price = {};
       if (minPrice !== null) query.price.$gte = minPrice;
       if (maxPrice !== null) query.price.$lte = maxPrice;
     }
 
-    // Execute query with pagination
     const products = await Product.find(query)
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 });
 
-    // Get total count for pagination
     const total = await Product.countDocuments(query);
 
     res.status(200).json({
